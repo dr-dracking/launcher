@@ -1,0 +1,6 @@
+[submodule "gateway"]
+	path = gateway
+	url = git@github.com:dr-dracking/gateway.git
+[submodule "auth"]
+	path = auth
+	url = git@github.com:dr-dracking/auth.git
