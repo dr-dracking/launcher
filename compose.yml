@@ -1,0 +1,53 @@
+services:
+  nats-server:
+    image: nats:2.10.16-alpine3.19
+    ports:
+      - 8222:8222
+  cache:
+    image: redis:7.2.5-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - ./gateway/data/redis:/data
+
+  gateway:
+    build: ./gateway
+    depends_on:
+      - nats-server
+      - cache
+    ports:
+      - 3000:3000
+    volumes:
+      - ./gateway/src:/usr/src/app/src
+    command: pnpm start:dev
+    env_file:
+      - ./gateway/.env
+    environment:
+      - NATS_SERVERS=nats://nats-server:4222
+      - REDIS_URL=redis://cache:6379
+
+  auth:
+    build: ./auth
+    depends_on:
+      - nats-server
+      - cache
+      - auth-db
+    volumes:
+      - ./auth/src:/usr/src/app/src
+    command: pnpm start:dev
+    env_file:
+      - ./auth/.env
+    environment:
+      - NATS_SERVERS=nats://nats-server:4222
+      - DATABASE_URL=postgresql://postgres:123123@auth-db:5432/auth
+
+  auth-db:
+    container_name: auth_db
+    image: postgres:16.3
+    restart: always
+    volumes:
+      - ./auth/postgres:/var/lib/postgresql/data
+    ports:
+      - 5435:5432
+    env_file:
+      - ./auth/.env
