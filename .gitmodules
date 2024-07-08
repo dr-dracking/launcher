@@ -4,3 +4,6 @@
 [submodule "auth"]
 	path = auth
 	url = git@github.com:dr-dracking/auth.git
+[submodule "product"]
+	path = product
+	url = git@github.com:dr-dracking/product.git
