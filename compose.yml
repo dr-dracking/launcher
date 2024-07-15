@@ -77,3 +77,29 @@ services:
       - 5436:5432
     env_file:
       - ./product/.env
+
+  order:
+    build: ./order
+    depends_on:
+      - nats-server
+      - cache
+      - order-db
+    volumes:
+      - ./order/src:/usr/src/app/src
+    command: pnpm start:dev
+    env_file:
+      - ./order/.env
+    environment:
+      - NATS_SERVERS=nats://nats-server:4222
+      - DATABASE_URL=postgresql://postgres:123123@order-db:5437/order
+
+  order-db:
+    container_name: order_db
+    image: postgres:16.3
+    restart: always
+    volumes:
+      - ./order/postgres:/var/lib/postgresql/data
+    ports:
+      - 5437:5432
+    env_file:
+      - ./order/.env

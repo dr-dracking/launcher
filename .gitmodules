@@ -7,3 +7,6 @@
 [submodule "product"]
 	path = product
 	url = git@github.com:dr-dracking/product.git
+[submodule "order"]
+	path = order
+	url = git@github.com:dr-dracking/order.git
