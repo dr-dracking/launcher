@@ -91,7 +91,7 @@ services:
       - ./order/.env
     environment:
       - NATS_SERVERS=nats://nats-server:4222
-      - DATABASE_URL=postgresql://postgres:123123@order-db:5437/order
+      - DATABASE_URL=postgresql://postgres:123123@order-db:5432/order
 
   order-db:
     container_name: order_db
