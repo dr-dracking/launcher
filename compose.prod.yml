@@ -1,0 +1,22 @@
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: dockerfile.prod
+    image: drglasdou/dracking-gateway
+  auth:
+    build:
+      context: ./auth
+      dockerfile: dockerfile.prod
+    image: drglasdou/dracking-auth
+  product:
+    build:
+      context: ./product
+      dockerfile: dockerfile.prod
+    image: drglasdou/dracking-product
+
+  order:
+    build:
+      context: ./order
+      dockerfile: dockerfile.prod
+    image: drglasdou/dracking-order
